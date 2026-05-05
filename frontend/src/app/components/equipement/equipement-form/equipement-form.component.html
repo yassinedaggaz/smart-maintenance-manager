@@ -1,0 +1,90 @@
+<div class="form-container">
+  <h1>{{ isEditMode ? 'Modifier' : 'Créer' }} un équipement</h1>
+
+  <mat-card class="form-card">
+    <form [formGroup]="equipementForm" (ngSubmit)="submit()">
+      
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Nom</mat-label>
+          <input matInput formControlName="nom" type="text" required>
+          <mat-icon matPrefix>label</mat-icon>
+          <mat-error *ngIf="equipementForm.get('nom')?.hasError('required')">
+            Le nom est requis
+          </mat-error>
+          <mat-error *ngIf="equipementForm.get('nom')?.hasError('minlength')">
+            Minimum 3 caractères
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Type</mat-label>
+          <input matInput formControlName="type" type="text" required>
+          <mat-icon matPrefix>category</mat-icon>
+          <mat-error *ngIf="equipementForm.get('type')?.hasError('required')">
+            Le type est requis
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Marque</mat-label>
+          <input matInput formControlName="marque" type="text" required>
+          <mat-icon matPrefix>business</mat-icon>
+          <mat-error *ngIf="equipementForm.get('marque')?.hasError('required')">
+            La marque est requise
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Modèle</mat-label>
+          <input matInput formControlName="modele" type="text" required>
+          <mat-icon matPrefix>memory</mat-icon>
+          <mat-error *ngIf="equipementForm.get('modele')?.hasError('required')">
+            Le modèle est requis
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>État</mat-label>
+          <mat-select formControlName="etat" required>
+            <mat-option *ngFor="let etat of etatValues" [value]="etat">
+              {{ etat }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="equipementForm.get('etat')?.hasError('required')">
+            L'état est requis
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Date d'acquisition</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="dateAcquisition" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="equipementForm.get('dateAcquisition')?.hasError('required')">
+            La date est requise
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" rows="4"></textarea>
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-raised-button type="button" (click)="cancel()">
+          Annuler
+        </button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="equipementForm.invalid || isLoading">
+          <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+          <span *ngIf="!isLoading">{{ isEditMode ? 'Modifier' : 'Créer' }}</span>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

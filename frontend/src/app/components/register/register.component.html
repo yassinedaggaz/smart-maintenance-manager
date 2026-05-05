@@ -1,0 +1,76 @@
+<form [formGroup]="registerForm" (ngSubmit)="register()" class="register-container">
+  <mat-card class="register-card">
+    <mat-card-header>
+      <mat-card-title>
+        <h1>Smart Maintenance Manager</h1>
+        <p>Créer un compte</p>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nom d'utilisateur</mat-label>
+        <input matInput formControlName="username" type="text" required>
+        <mat-icon matPrefix>person</mat-icon>
+        <mat-error *ngIf="registerForm.get('username')?.hasError('required')">
+          Le nom d'utilisateur est requis
+        </mat-error>
+        <mat-error *ngIf="registerForm.get('username')?.hasError('minlength')">
+          Minimum 3 caractères
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" required>
+        <mat-icon matPrefix>email</mat-icon>
+        <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
+          L'email est requis
+        </mat-error>
+        <mat-error *ngIf="registerForm.get('email')?.hasError('email')">
+          Format d'email invalide
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
+        <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+          Le mot de passe est requis
+        </mat-error>
+        <mat-error *ngIf="registerForm.get('password')?.hasError('minlength')">
+          Minimum 6 caractères
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Confirmer le mot de passe</mat-label>
+        <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirmPassword" required>
+        <button mat-icon-button matSuffix (click)="toggleConfirmPasswordVisibility()" type="button">
+          <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="registerForm.get('confirmPassword')?.hasError('required')">
+          Confirmez le mot de passe
+        </mat-error>
+        <mat-error *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched">
+          Les mots de passe ne correspondent pas
+        </mat-error>
+      </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit" 
+              [disabled]="registerForm.invalid || isLoading" class="full-width">
+        <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+        <span *ngIf="!isLoading">S'inscrire</span>
+      </button>
+    </mat-card-actions>
+
+    <mat-card-footer>
+      <p>Déjà inscrit? <a routerLink="/auth/login">Se connecter</a></p>
+    </mat-card-footer>
+  </mat-card>
+</form>

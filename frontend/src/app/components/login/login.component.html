@@ -1,0 +1,50 @@
+<form [formGroup]="loginForm" (ngSubmit)="login()" class="login-container">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>
+        <h1>Smart Maintenance Manager</h1>
+        <p>Connexion</p>
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nom d'utilisateur</mat-label>
+        <input matInput formControlName="username" type="text" required>
+        <mat-icon matPrefix>person</mat-icon>
+        <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
+          Le nom d'utilisateur est requis
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('username')?.hasError('minlength')">
+          Minimum 3 caractères
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
+        <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button">
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+          Le mot de passe est requis
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
+          Minimum 6 caractères
+        </mat-error>
+      </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit" 
+              [disabled]="loginForm.invalid || isLoading" class="full-width">
+        <mat-spinner diameter="20" *ngIf="isLoading"></mat-spinner>
+        <span *ngIf="!isLoading">Se connecter</span>
+      </button>
+    </mat-card-actions>
+
+    <mat-card-footer>
+      <p>Pas encore de compte? <a routerLink="/auth/register">S'inscrire</a></p>
+    </mat-card-footer>
+  </mat-card>
+</form>

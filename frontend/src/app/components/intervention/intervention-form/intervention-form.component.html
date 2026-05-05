@@ -1,0 +1,96 @@
+<div class="form-container">
+  <h1>{{ isEditMode ? 'Modifier' : 'Planifier' }} une intervention</h1>
+
+  <mat-card class="form-card">
+    <form [formGroup]="interventionForm" (ngSubmit)="submit()">
+      
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Équipement</mat-label>
+          <mat-select formControlName="equipementId" required>
+            <mat-option *ngFor="let eq of equipements" [value]="eq.id">
+              {{ eq.nom }} ({{ eq.etat }})
+            </mat-option>
+          </mat-select>
+          <mat-icon matPrefix>devices</mat-icon>
+          <mat-error *ngIf="interventionForm.get('equipementId')?.hasError('required')">
+            L'équipement est requis
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Technicien</mat-label>
+          <mat-select formControlName="technicienId">
+            <mat-option></mat-option>
+            <mat-option *ngFor="let tech of techniciens" [value]="tech.id">
+              {{ tech.nom }}
+            </mat-option>
+          </mat-select>
+          <mat-icon matPrefix>engineering</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Statut</mat-label>
+          <mat-select formControlName="statut" required>
+            <mat-option *ngFor="let st of statutValues" [value]="st">
+              {{ st }}
+            </mat-option>
+          </mat-select>
+          <mat-icon matPrefix>done</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Date de début</mat-label>
+          <input matInput [matDatepicker]="startPicker" formControlName="dateDebut" required>
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+          <mat-error *ngIf="interventionForm.get('dateDebut')?.hasError('required')">
+            La date est requise
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Date de fin</mat-label>
+          <input matInput [matDatepicker]="endPicker" formControlName="dateFin">
+          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Coût (€)</mat-label>
+          <input matInput formControlName="cout" type="number" step="0.01" min="0" required>
+          <mat-icon matPrefix>euro_symbol</mat-icon>
+          <mat-error *ngIf="interventionForm.get('cout')?.hasError('required')">
+            Le coût est requis
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description de l'intervention</mat-label>
+        <textarea matInput formControlName="description" rows="5" required></textarea>
+        <mat-hint>Décrivez les travaux à effectuer</mat-hint>
+        <mat-error *ngIf="interventionForm.get('description')?.hasError('required')">
+          La description est requise
+        </mat-error>
+        <mat-error *ngIf="interventionForm.get('description')?.hasError('minlength')">
+          Minimum 10 caractères
+        </mat-error>
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-raised-button type="button" (click)="cancel()">
+          Annuler
+        </button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="interventionForm.invalid || isLoading">
+          <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+          <span *ngIf="!isLoading">{{ isEditMode ? 'Modifier' : 'Planifier' }}</span>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

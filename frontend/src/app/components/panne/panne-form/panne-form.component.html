@@ -1,0 +1,92 @@
+<div class="form-container">
+  <h1>{{ isEditMode ? 'Modifier' : 'Signaler' }} une panne</h1>
+
+  <mat-card class="form-card">
+    <form [formGroup]="panneForm" (ngSubmit)="submit()">
+      
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Équipement</mat-label>
+          <mat-select formControlName="equipementId" required>
+            <mat-option *ngFor="let eq of equipements" [value]="eq.id">
+              {{ eq.nom }} ({{ eq.etat }})
+            </mat-option>
+          </mat-select>
+          <mat-icon matPrefix>devices</mat-icon>
+          <mat-error *ngIf="panneForm.get('equipementId')?.hasError('required')">
+            L'équipement est requis
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Catégorie</mat-label>
+          <mat-select formControlName="categorie" required>
+            <mat-option *ngFor="let cat of categorieValues" [value]="cat">
+              {{ cat }}
+            </mat-option>
+          </mat-select>
+          <mat-icon matPrefix>category</mat-icon>
+          <mat-error *ngIf="panneForm.get('categorie')?.hasError('required')">
+            La catégorie est requise
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Sévérité</mat-label>
+          <mat-select formControlName="severite" required>
+            <mat-option value="BASSE">Basse</mat-option>
+            <mat-option value="MOYENNE">Moyenne</mat-option>
+            <mat-option value="HAUTE">Haute</mat-option>
+            <mat-option value="CRITIQUE">Critique</mat-option>
+          </mat-select>
+          <mat-icon matPrefix>warning</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Statut</mat-label>
+          <mat-select formControlName="statut" required>
+            <mat-option *ngFor="let st of statutValues" [value]="st">
+              {{ st }}
+            </mat-option>
+          </mat-select>
+          <mat-icon matPrefix>done</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Coût estimé (€)</mat-label>
+          <input matInput formControlName="coutEstime" type="number" step="0.01" min="0" required>
+          <mat-icon matPrefix>euro_symbol</mat-icon>
+          <mat-error *ngIf="panneForm.get('coutEstime')?.hasError('required')">
+            Le coût est requis
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" rows="5" required></textarea>
+        <mat-hint>Décrivez la panne détaillée et les symptômes observés</mat-hint>
+        <mat-error *ngIf="panneForm.get('description')?.hasError('required')">
+          La description est requise
+        </mat-error>
+        <mat-error *ngIf="panneForm.get('description')?.hasError('minlength')">
+          Minimum 10 caractères
+        </mat-error>
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-raised-button type="button" (click)="cancel()">
+          Annuler
+        </button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="panneForm.invalid || isLoading">
+          <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+          <span *ngIf="!isLoading">{{ isEditMode ? 'Modifier' : 'Signaler' }}</span>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

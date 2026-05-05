@@ -1,0 +1,103 @@
+<div class="form-container">
+  <h1>{{ isEditMode ? 'Modifier' : 'Ajouter' }} un technicien</h1>
+
+  <mat-card class="form-card">
+    <form [formGroup]="technicienForm" (ngSubmit)="submit()">
+      
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Nom complet</mat-label>
+          <input matInput formControlName="nom" type="text" required>
+          <mat-icon matPrefix>person</mat-icon>
+          <mat-error *ngIf="technicienForm.get('nom')?.hasError('required')">
+            Le nom est requis
+          </mat-error>
+          <mat-error *ngIf="technicienForm.get('nom')?.hasError('minlength')">
+            Minimum 3 caractères
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" type="email" required>
+          <mat-icon matPrefix>email</mat-icon>
+          <mat-error *ngIf="technicienForm.get('email')?.hasError('required')">
+            L'email est requis
+          </mat-error>
+          <mat-error *ngIf="technicienForm.get('email')?.hasError('email')">
+            Format d'email invalide
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Téléphone</mat-label>
+          <input matInput formControlName="telephone" type="tel" required>
+          <mat-icon matPrefix>phone</mat-icon>
+          <mat-error *ngIf="technicienForm.get('telephone')?.hasError('required')">
+            Le téléphone est requis
+          </mat-error>
+          <mat-error *ngIf="technicienForm.get('telephone')?.hasError('pattern')">
+            Format de téléphone invalide
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Date d'embauche</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="dateEmbauche" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="technicienForm.get('dateEmbauche')?.hasError('required')">
+            La date est requise
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Disponibilité</mat-label>
+        <mat-select formControlName="disponibilite" required>
+          <mat-option *ngFor="let disp of disponibiliteValues" [value]="disp">
+            {{ disp }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Competencies -->
+      <div class="competencies-section">
+        <h3>Compétences</h3>
+        <div class="competencies-grid">
+          <mat-checkbox *ngFor="let comp of competencesList" 
+                        [checked]="isCompetenceSelected(comp)"
+                        (change)="toggleCompetence(comp)"
+                        class="competency-checkbox">
+            {{ comp }}
+          </mat-checkbox>
+        </div>
+        <small *ngIf="selectedCompetences.length === 0" class="error-text">
+          Sélectionnez au moins une compétence
+        </small>
+        <div *ngIf="selectedCompetences.length > 0" class="selected-competencies">
+          <mat-chip-set aria-label="Selected competencies">
+            <mat-chip *ngFor="let comp of selectedCompetences" removable (removed)="toggleCompetence(comp)">
+              {{ comp }}
+              <button matChipRemove>
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-chip>
+          </mat-chip-set>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button mat-raised-button type="button" (click)="cancel()">
+          Annuler
+        </button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="technicienForm.invalid || isLoading">
+          <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+          <span *ngIf="!isLoading">{{ isEditMode ? 'Modifier' : 'Créer' }}</span>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

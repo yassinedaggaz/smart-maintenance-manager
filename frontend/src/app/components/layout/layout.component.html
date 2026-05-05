@@ -1,0 +1,94 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="'navigation'"
+               [mode]="(isHandset$ | async) ? 'side' : 'side'" [opened]="!(isHandset$ | async)">
+    
+    <!-- Sidebar Header -->
+    <div class="sidebar-header">
+      <mat-icon class="logo-icon">build</mat-icon>
+      <h2>Smart Maintenance</h2>
+    </div>
+
+    <!-- Navigation Menu -->
+    <mat-nav-list>
+      <h2 mat-subheader>Menu Principal</h2>
+      
+      <mat-list-item routerLink="/dashboard" (click)="closeSidenavIfHandset()">
+        <mat-icon matListItemIcon>dashboard</mat-icon>
+        <span matListItemTitle>Tableau de bord</span>
+      </mat-list-item>
+
+      <mat-list-item routerLink="/equipements" (click)="closeSidenavIfHandset()">
+        <mat-icon matListItemIcon>devices</mat-icon>
+        <span matListItemTitle>Équipements</span>
+      </mat-list-item>
+
+      <mat-list-item routerLink="/pannes" (click)="closeSidenavIfHandset()">
+        <mat-icon matListItemIcon>error_outline</mat-icon>
+        <span matListItemTitle>Pannes</span>
+      </mat-list-item>
+
+      <mat-list-item routerLink="/interventions" (click)="closeSidenavIfHandset()">
+        <mat-icon matListItemIcon>build</mat-icon>
+        <span matListItemTitle>Interventions</span>
+      </mat-list-item>
+
+      <mat-list-item routerLink="/techniciens" (click)="closeSidenavIfHandset()">
+        <mat-icon matListItemIcon>engineering</mat-icon>
+        <span matListItemTitle>Techniciens</span>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <h2 mat-subheader>Administration</h2>
+      
+      <mat-list-item routerLink="/admin/users" *ngIf="$any(currentUser$ | async)?.role === 'ADMIN'" 
+                     (click)="closeSidenavIfHandset()">
+        <mat-icon matListItemIcon>admin_panel_settings</mat-icon>
+        <span matListItemTitle>Gestion des utilisateurs</span>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <mat-list-item (click)="logout()">
+        <mat-icon matListItemIcon>logout</mat-icon>
+        <span matListItemTitle>Déconnexion</span>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <!-- Top Navbar -->
+    <mat-toolbar color="primary" class="navbar">
+      <button mat-icon-button (click)="drawer.toggle()" [hidden]="!(isHandset$ | async)">
+        <mat-icon>menu</mat-icon>
+      </button>
+      
+      <span class="toolbar-spacer"></span>
+
+      <button mat-icon-button [matMenuTriggerFor]="userMenu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item disabled>
+          <mat-icon>person</mat-icon>
+          <span>{{ $any(currentUser$ | async)?.username }}</span>
+        </button>
+        <button mat-menu-item disabled>
+          <mat-icon>email</mat-icon>
+          <span>{{ $any(currentUser$ | async)?.email }}</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Déconnexion</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
