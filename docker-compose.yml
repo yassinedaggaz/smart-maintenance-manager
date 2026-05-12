@@ -1,0 +1,76 @@
+version: '3.9'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: smart_maintenance_postgres
+    environment:
+      POSTGRES_DB: smart_maintenance_db
+      POSTGRES_USER: yassine
+      POSTGRES_PASSWORD: daggaz
+    ports:
+      - "5432:5432"
+    command: >
+      postgres
+      -c listen_addresses=*
+      -c max_connections=200
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yassine -d smart_maintenance_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - smart-network
+
+  # Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: smart_maintenance_backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/smart_maintenance_db
+      SPRING_DATASOURCE_USERNAME: yassine
+      SPRING_DATASOURCE_PASSWORD: daggaz
+      SPRING_PROFILES_ACTIVE: prod
+      JWT_SECRET: u9V7k2mQxPz8aL0dE5rT1yW3nB6cH9jK4mN7qR2sT5vX8zA1bC3dF6gH9jL2pQ==
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
+    ports:
+      - "9090:9090"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - smart-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9090/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # Frontend Angular (future)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: smart_maintenance_frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    networks:
+      - smart-network
+    environment:
+      API_URL: http://backend:9090
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  smart-network:
+    driver: bridge

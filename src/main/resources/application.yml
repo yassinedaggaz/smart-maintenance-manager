@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: smart-maintenance-manager
+    description: Smart Maintenance Manager - API REST
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/smart_maintenance_db
+    username: yassine
+    password: daggaz
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          batch_size: 20
+          fetch_size: 50
+    show-sql: true
+    open-in-view: false
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    time-zone: UTC
+
+server:
+  port: 9090
+  servlet:
+    context-path: /
+
+app:
+  jwtSecret: u9V7k2mQxPz8aL0dE5rT1yW3nB6cH9jK4mN7qR2sT5vX8zA1bC3dF6gH9jL2pQ==
+  jwtExpirationMs: 86400000
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    title: Smart Maintenance Manager API Docs
+    description: API Documentation for Smart Maintenance Manager
+
+logging:
+  level:
+    root: INFO
+    com.smartmaintenance: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

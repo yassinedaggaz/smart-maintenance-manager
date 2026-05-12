@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres:5432/smart_maintenance_db
+    username: yassine
+    password: daggaz
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+        jdbc:
+          batch_size: 30
+          fetch_size: 100
+    show-sql: false
+
+server:
+  port: 9090
+
+app:
+  jwtSecret: ${JWT_SECRET:u9V7k2mQxPz8aL0dE5rT1yW3nB6cH9jK4mN7qR2sT5vX8zA1bC3dF6gH9jL2pQ==}
+  jwtExpirationMs: 86400000
+
+logging:
+  level:
+    root: WARN
+    com.smartmaintenance: INFO
+    org.springframework: WARN
