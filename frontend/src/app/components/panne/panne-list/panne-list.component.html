@@ -1,7 +1,7 @@
 <div class="panne-list-container">
   <div class="header-section">
     <h1>Gestion des Pannes</h1>
-    <button *ngIf="isAdmin" mat-raised-button color="primary" routerLink="/pannes/new">
+    <button mat-raised-button color="primary" routerLink="/pannes/new">
       <mat-icon>add</mat-icon>
       Signaler une panne
     </button>
@@ -29,26 +29,22 @@
   <!-- Table -->
   <mat-card *ngIf="!isLoading && dataSource.data.length > 0">
     <table mat-table [dataSource]="dataSource" matSort class="panne-table">
-      
-      <!-- ID Column -->
+
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
         <td mat-cell *matCellDef="let element">{{ element.id }}</td>
       </ng-container>
 
-      <!-- Equipment Column -->
       <ng-container matColumnDef="equipementNom">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Équipement</th>
         <td mat-cell *matCellDef="let element">{{ element.equipementNom }}</td>
       </ng-container>
 
-      <!-- Category Column -->
       <ng-container matColumnDef="categorie">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Catégorie</th>
         <td mat-cell *matCellDef="let element">{{ element.categorie }}</td>
       </ng-container>
 
-      <!-- Status Column -->
       <ng-container matColumnDef="statut">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Statut</th>
         <td mat-cell *matCellDef="let element">
@@ -58,13 +54,11 @@
         </td>
       </ng-container>
 
-      <!-- Date Column -->
       <ng-container matColumnDef="dateSignalement">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Date de signalement</th>
         <td mat-cell *matCellDef="let element">{{ element.dateSignalement | date: 'dd/MM/yyyy HH:mm' }}</td>
       </ng-container>
 
-      <!-- Actions Column -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let element">

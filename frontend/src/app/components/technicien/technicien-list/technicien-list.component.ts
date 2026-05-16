@@ -47,10 +47,20 @@ export class TechnicienListComponent implements OnInit {
     this.technicienService.getAll().subscribe({
       next: (response) => {
         let data = response.data || [];
+
+        data = data.map((t: Technicien) => ({
+          ...t,
+          competences: typeof t.competences === 'string'
+            ? t.competences.split(',').map((s: string) => s.trim())
+            : t.competences
+        }));
+
+
         if (this.filterDisponibilite) {
           data = data.filter((t: Technicien) => t.disponibilite === this.filterDisponibilite);
         }
         this.dataSource.data = data;
+        
         this.isLoading = false;
       },
       error: () => {

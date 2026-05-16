@@ -55,7 +55,7 @@ export interface Technicien {
   prenom: string;
   email: string;
   telephone: string;
-  competences?: string;
+  competences?: string | string[];
   disponibilite: DisponibiliteStatut;
   createdAt: string;
   updatedAt: string;

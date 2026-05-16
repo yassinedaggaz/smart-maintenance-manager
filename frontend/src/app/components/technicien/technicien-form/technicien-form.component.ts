@@ -21,7 +21,7 @@ export class TechnicienFormComponent implements OnInit {
   competencesList: string[] = ['Électrique', 'Mécanique', 'Hydraulique', 'Pneumatique', 'Automatisme', 'CNC', 'Robottique'];
   selectedCompetences: string[] = [];
   dateEmbauche: Date | null = null;
-  
+
   constructor(
     private fb: FormBuilder,
     @Inject(TechnicienService) private technicienService: TechnicienService,
@@ -48,7 +48,7 @@ export class TechnicienFormComponent implements OnInit {
       nom: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       telephone: ['', [Validators.required, Validators.pattern(/^[\d\s\-\+\(\)]+$/)]],
-      competences: [[]],
+      competences: [''],
       disponibilite: [DisponibiliteStatut.DISPONIBLE, Validators.required],
       dateEmbauche: ['', Validators.required]
     });
@@ -60,8 +60,8 @@ export class TechnicienFormComponent implements OnInit {
     this.technicienService.getById(this.technicienId).subscribe({
       next: (response) => {
         const technicien = response.data;
-        const competences = technicien.competences;
-        this.selectedCompetences = Array.isArray(competences) ? competences : [];
+        const competences = technicien.competences || '';
+        this.selectedCompetences = Array.isArray(competences) ? competences : competences.length > 0 ?  competences.split(',') : [];
         this.technicienForm.patchValue({
           nom: technicien.nom,
           email: technicien.email,
@@ -86,6 +86,7 @@ export class TechnicienFormComponent implements OnInit {
     } else {
       this.selectedCompetences.push(competence);
     }
+    console.error(this.selectedCompetences);
     this.technicienForm.patchValue({ competences: this.selectedCompetences });
   }
 
@@ -102,7 +103,7 @@ export class TechnicienFormComponent implements OnInit {
 
     const formValue = {
       ...this.technicienForm.value,
-      competences: this.selectedCompetences
+      competences: this.selectedCompetences.join(',')
     };
 
     if (this.isEditMode && this.technicienId) {

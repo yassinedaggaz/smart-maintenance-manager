@@ -44,6 +44,7 @@ CREATE TABLE techniciens (
     prenom VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     telephone VARCHAR(20) NOT NULL,
+    dateEmbauche DATE NOT NULL,
     competences TEXT,
     disponibilite VARCHAR(20) NOT NULL CHECK (disponibilite IN ('DISPONIBLE', 'OCCUPE', 'EN_CONGE')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

@@ -26,6 +26,7 @@ public class Intervention {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Builder.Default
     private StatutIntervention statut = StatutIntervention.PLANIFIEE;
 
     @Column(precision = 10, scale = 2)

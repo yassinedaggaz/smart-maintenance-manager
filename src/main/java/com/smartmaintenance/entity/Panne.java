@@ -27,6 +27,7 @@ public class Panne {
 
 
     @Column(nullable = false)
+    @Builder.Default
     private LocalDate dateSignalement = LocalDate.now();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -35,6 +36,7 @@ public class Panne {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Builder.Default
     private StatutPanne statut = StatutPanne.SIGNALEEE;
 
     @Column(columnDefinition = "TEXT")

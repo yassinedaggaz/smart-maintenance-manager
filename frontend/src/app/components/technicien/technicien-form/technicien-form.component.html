@@ -3,7 +3,7 @@
 
   <mat-card class="form-card">
     <form [formGroup]="technicienForm" (ngSubmit)="submit()">
-      
+
       <div class="form-row">
         <mat-form-field appearance="outline" class="form-field">
           <mat-label>Nom complet</mat-label>
@@ -65,12 +65,10 @@
 
       <!-- Competencies -->
       <div class="competencies-section">
-        <h3>Compétences</h3>
+        <h3 style="color: #f9f9f9;">Compétences</h3>
         <div class="competencies-grid">
-          <mat-checkbox *ngFor="let comp of competencesList" 
-                        [checked]="isCompetenceSelected(comp)"
-                        (change)="toggleCompetence(comp)"
-                        class="competency-checkbox">
+          <mat-checkbox *ngFor="let comp of competencesList" [checked]="isCompetenceSelected(comp)"
+            (change)="toggleCompetence(comp)" class="competency-checkbox">
             {{ comp }}
           </mat-checkbox>
         </div>

@@ -86,7 +86,8 @@ public class PanneController {
     @PutMapping("/{id}/statut/{nouveauStatut}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Change panne statut")
-    public ResponseEntity<ApiResponse<PanneDTO>> changeStatut(@PathVariable Long id, @PathVariable String nouveauStatut) {
+    public ResponseEntity<ApiResponse<PanneDTO>> changeStatut(@PathVariable Long id,
+            @PathVariable String nouveauStatut) {
         log.info("Changing panne statut with id: {} to {}", id, nouveauStatut);
         PanneDTO updated = panneService.changeStatut(id, nouveauStatut);
         return ResponseEntity.ok(ApiResponse.success("Panne statut updated successfully", updated));

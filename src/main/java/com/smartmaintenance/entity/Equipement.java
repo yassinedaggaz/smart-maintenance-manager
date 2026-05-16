@@ -24,6 +24,7 @@ public class Equipement {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Builder.Default
     private EtatEquipement etat = EtatEquipement.EN_SERVICE;
 
     @Column(nullable = false)

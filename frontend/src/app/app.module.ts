@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgChartsModule } from 'ng2-charts';
-import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,7 +14,6 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 
 // Layout Components
 import { LayoutComponent } from './components/layout/layout.component';
-import { HomeComponent } from './components/home/home.component';
 
 // Auth Components
 import { LoginComponent } from './components/login/login.component';
@@ -53,14 +51,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     LoginComponent,
     RegisterComponent,
     DashboardComponent,
@@ -96,7 +92,6 @@ import { MaterialModule } from './material/material.module';
     MatPaginatorModule,
     MatSortModule,
     MatIconModule,
-    MatButtonModule,
     MaterialModule
   ],
   providers: [

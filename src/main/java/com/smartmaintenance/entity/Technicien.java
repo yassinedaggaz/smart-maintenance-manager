@@ -30,11 +30,15 @@ public class Technicien {
     @Column(nullable = false)
     private String telephone;
 
+    @Column(nullable = false)
+    private java.time.LocalDateTime dateEmbauche;
+
     @Column(columnDefinition = "TEXT")
     private String competences;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Builder.Default
     private DisponibiliteStatut disponibilite = DisponibiliteStatut.DISPONIBLE;
 
     @OneToMany(mappedBy = "technicien", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -8,10 +8,7 @@ import com.smartmaintenance.dto.EquipementDTO;
 import com.smartmaintenance.entity.Equipement;
 import java.util.List;
 
-@Mapper(
-        componentModel = "spring",
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
-)
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, uses = {PanneMapper.class, InterventionMapper.class})
 public interface EquipementMapper {
 
     @Mapping(target = "etat", source = "etat")

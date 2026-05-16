@@ -15,6 +15,7 @@ public class TechnicienDTO {
     private String prenom;
     private String email;
     private String telephone;
+    private LocalDateTime dateEmbauche;
     private String competences;
     private String disponibilite;
     private LocalDateTime createdAt;
